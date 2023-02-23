@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mascota;
 use Illuminate\Http\Request;
 
-class MascotaController extends Controller
+use App\Models\Pet;
+
+class PetController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,11 @@ class MascotaController extends Controller
      */
     public function index()
     {
-      $mascotas = Mascota::all();
-      return view('mascotas.index', ['mascotas' => $mascotas]);
+        $pets = Pet::all();
+
+        return view('pets.index', [
+            'pets' => $pets
+        ]);
     }
 
     /**
@@ -25,7 +29,7 @@ class MascotaController extends Controller
      */
     public function create()
     {
-      return view('mascotas.create');
+        return view('pets.create');
     }
 
     /**
@@ -36,21 +40,23 @@ class MascotaController extends Controller
      */
     public function store(Request $request)
     {
-      Mascota::create([
-          'nombre' => $request->input('nombre'),
-          'descripcion' => $request->input('descripcion')
-      ]);
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
 
-      return redirect('/mascotas');
+        Pet::create($request->all());
+  
+        return redirect('/pets');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Mascota  $mascota
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Mascota $mascota)
+    public function show($id)
     {
         //
     }
@@ -58,41 +64,53 @@ class MascotaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Mascota  $mascota
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-      $mascota = Mascota::find($id);
-      return view('mascotas.edit', ['mascota' => $mascota]);
+        $pet = Pet::findOrFail($id);
+
+        return view('pets.edit', [
+            'pet' => $pet
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mascota  $mascota
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-      $mascota = Mascota::find($id);
-      $mascota->nombre = $request->input('nombre');
-      $mascota->descripcion = $request->input('descripcion');
-      $mascota->save();
-      return redirect('/mascotas');
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+
+        $pet = Pet::findOrFail($id);
+
+        $pet->name= $request->input('name');
+        $pet->description = $request->input('description');
+        $pet->save();
+
+        return redirect('/pets');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Mascota  $mascota
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-      $mascota = Mascota::find($id);
-      $mascota->delete();
-      return redirect('/mascotas');
+        $pet = Pet::findOrFail($id);
+
+        $pet->delete();
+        
+        return redirect('/pets');
     }
 }

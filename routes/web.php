@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MascotaController;
-use App\Http\Controllers\WebController;
+
+use App\Http\Controllers\PetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +15,4 @@ use App\Http\Controllers\WebController;
 |
 */
 
-Route::get('/', [WebController::class, 'home']);
-
-Route::get('/services', [WebController::class, 'services']);
-
-Route::resource('mascotas', MascotaController::class);
+Route::resource('pets', PetController::class);

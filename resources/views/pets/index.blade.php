@@ -3,7 +3,7 @@
 @section('content')
   <div class="container">
     <h1>Mascotas</h1>
-    <a href="{{url('/mascotas/create')}}" class="btn btn-primary btn-block my-4" >Crear nueva mascotas</a>
+    <a href="{{url('/pets/create')}}" class="btn btn-primary btn-block my-4" >Crear nueva mascotas</a>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -16,14 +16,14 @@
 
         </thead>
         <tbody>
-          @foreach($mascotas as $mascota)
+          @foreach($pets as $pet)
               <tr>
-                <th scope="row">{{ $mascota->id }}</th>
-                <td>{{ $mascota->nombre }}</td>
-                <td>{{ $mascota->descripcion }}</td>
+                <th scope="row">{{ $pet->id }}</th>
+                <td>{{ $pet->name }}</td>
+                <td>{{ $pet->description }}</td>
                 <td>
-                  <a class='btn btn-warning bt-sm' href="{{url('/mascotas/'.$mascota->id.'/edit')}}">Editar</a>
-                  <form method="POST" action="{{ url('/mascotas/'.$mascota->id) }}" class="d-inline">
+                  <a class='btn btn-warning bt-sm' href="{{url('/pets/'.$pet->id.'/edit')}}">Editar</a>
+                  <form method="POST" action="{{ url('/pets/'.$pet->id) }}" class="d-inline">
                     @csrf
                     @method('DELETE')
                     <input type="submit" value="Eliminar" class='btn btn-danger bt-sm'>
